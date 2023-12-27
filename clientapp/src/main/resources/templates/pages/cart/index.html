@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/main.html}">
+
+<head>
+  <title>Shopping Cart</title>
+</head>
+
+<body>
+  <section class="container" layout:fragment="content">
+
+    <div id="empty-cart" style="display: flex; align-items: center; justify-content: center; margin-top: -50px;">
+
+    </div>
+
+
+
+    <div id="titleCart">
+
+    </div>
+
+    <div class="cart" id="cart">
+      <div class="products" id="products">
+        <!-- products -->
+      </div>
+      <div id="cart-total">
+
+      </div>
+
+    </div>
+
+    <script>
+      function updateNumber(action, productId, cartID) {
+        const countElement = document.getElementById(`count_${productId}`);
+        console.log(`countElement: ${countElement}`);
+
+        if (countElement) {
+          let count = parseFloat(countElement.innerText);
+
+          if (action === "add") {
+            count++;
+            $.ajax({
+              type: "GET",
+              url: "api/product/" + productId,
+              dataType: "json",
+              contentType: "application/json",
+              beforeSend: addCSRFToken(),
+              success: function (data) {
+                let stock = data.stock;
+                console.log(stock);
+                if (stock >= count) {
+                  $.ajax({
+                    method: "PUT",
+                    url: "api/restcart/cart_products/" + cartID,
+                    dataType: "JSON",
+                    contentType: "application/json",
+                    beforeSend: addCSRFToken(),
+                    data: JSON.stringify({
+                      quantity: count,
+                      cart: { id: 2 },
+                      product: { id: productId },
+                    }),
+                    success: (res) => {
+                      console.log(cartID);
+                      console.log(productId);
+                      location.reload();
+                    },
+                    error: function (err) {
+                      console.log(err);
+                    },
+                  });
+                } else {
+                  $("#modalAlert").modal("show");
+                }
+              },
+              error: function (err) {
+                console.log(err);
+              },
+            });
+          } else if (action === "remove" && count > 0) {
+            count--;
+            $.ajax({
+              method: "PUT",
+              url: "api/restcart/cart_products/" + cartID,
+              dataType: "JSON",
+              contentType: "application/json",
+              beforeSend: addCSRFToken(),
+              data: JSON.stringify({
+                quantity: count,
+                cart: { id: 2 },
+                product: { id: productId },
+              }),
+              success: (res) => {
+                console.log(cartID);
+                console.log(productId);
+                // location.reload();
+                console.log("updated");
+              },
+              error: function (err) {
+                console.log(err);
+              },
+            });
+
+            if ((count < 1)) {
+              $.ajax({
+                method: "DELETE",
+                url: "api/restcart/cart_products/" + cartID,
+                beforeSend: addCSRFToken(),
+                success: function (res) {
+                  location.reload();
+                  console.log("updated");
+                },
+                error: function (err) {
+                  console.log(err);
+                },
+              });
+            }
+          }
+
+          countElement.textContent = count;
+        } else {
+          console.error(`Element with ID 'count_${productId}' not found.`);
+        }
+      }
+    </script>
+
+  </section>
+
+  <div layout:fragment="js">
+    <script th:src="@{/js/cart.js}"></script>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/main.html}">
+
+<head>
+  <title>product name</title>
+</head>
+
+<body>
+  <section class="container" layout:fragment="content">
+    <!-- product -->
+    <div class="row justify-content-between mx-3 my-3">
+      <div class="col" style="width: 100px;">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img th:src="${product.image}" class="d-block w-100 rounded-3" alt="...">
+            </div>
+
+          </div>
+          <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button> -->
+        </div>
+        <!-- <div class="py-2 align-items-center">
+          <div class="scrolling-wrapper">
+            <div class="card rounded-2" data-bs-target="#carouselExampleControls" data-bs-slide-to="0">
+              <img
+                src="https://upload.jaknot.com/2023/04/images/products/895515/original/ab-wheel-sport-alat-gym-fitness-roller-yy-1601.jpg"
+                style="height: 100px; width: 100px;" alt="...">
+            </div>
+            <div class="card rounded-2" data-bs-target="#carouselExampleControls" data-bs-slide-to="1">
+              <img
+                src="https://upload.jaknot.com/2023/04/images/products/6036fd/original/ab-wheel-sport-alat-gym-fitness-roller-yy-1601.jpg"
+                style="height: 100px; width: 100px;" alt="...">
+            </div>
+            <div class="card rounded-2" data-bs-target="#carouselExampleControls" data-bs-slide-to="2">
+              <img
+                src="https://upload.jaknot.com/2023/04/images/products/c9e84d/original/ab-wheel-sport-alat-gym-fitness-roller-yy-1601.jpg"
+                style="height: 100px; width: 100px;" alt="...">
+            </div>
+            <div class="card rounded-2" data-bs-target="#carouselExampleControls" data-bs-slide-to="0">
+              <img
+                src="https://upload.jaknot.com/2023/04/images/products/895515/original/ab-wheel-sport-alat-gym-fitness-roller-yy-1601.jpg"
+                style="height: 100px; width: 100px;" alt="...">
+            </div>
+            <div class="card rounded-2" data-bs-target="#carouselExampleControls" data-bs-slide-to="1">
+              <img
+                src="https://upload.jaknot.com/2023/04/images/products/6036fd/original/ab-wheel-sport-alat-gym-fitness-roller-yy-1601.jpg"
+                style="height: 100px; width: 100px;" alt="...">
+            </div>
+            <div class="card rounded-2" data-bs-target="#carouselExampleControls" data-bs-slide-to="2">
+              <img
+                src="https://upload.jaknot.com/2023/04/images/products/c9e84d/original/ab-wheel-sport-alat-gym-fitness-roller-yy-1601.jpg"
+                style="height: 100px; width: 100px;" alt="...">
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div class="col mx-3">
+        <div class="container">
+          <h4 th:text="${product.name}"></h4>
+          <br>
+          <h4 id="productPrice" class="product-price" style="font-weight: bold; color: red; font-size: 24px;"
+            th:text="'Rp. ' + ${product.price}"></h4>
+          <h4 id="productStock" class="product-stock" th:text="'stock : ' + ${product.stock}"></h4>
+          <br>
+          <p th:utext="${product.desc}"></p>
+        </div>
+
+      </div>
+      <div class="col">
+        <div class="card" id="checkout-card" style="width: 300px;">
+          <div class="card-body">
+            <p style="font-weight: bold;" class="pb-3">Masukan Jumlah produk</p>
+            <div class="row justify-content-center align-items-center g-2 pb-3">
+              <div class="col">
+                <p>Jumlah</p>
+              </div>
+              <div class="col">
+                <div class="card" style="width: 150px; height: 50px;">
+                  <div class="product-count card-body d-flex align-items-center justify-content-between">
+                    <div class="icon" onclick="updateNumber('add')">
+                      +
+                    </div>
+                    <div class="number">
+                      <p id="count">0</p>
+                    </div>
+                    <div class="icon" onclick="updateNumber('remove')">
+                      -
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col">
+                <p>Total Harga</p>
+              </div>
+              <div class="col">
+                <p style="font-weight: bold; color: red; font-size: 24px;" id="totalHarga">Rp. 0</p>
+              </div>
+            </div>
+            <div class="dashed-line my-3"></div>
+          </div>
+          <div class="d-grid gap-2 col-6 mx-auto my-3">
+            <button type="button" class="btn btn-outline-primary w-100"
+              th:onclick="|insertProductKeranjang(${product.id}, false)|" th:disabled="${product.stock == 0}">Keranjang
+            </button>
+
+            <button class="btn btn-primary w-100" type="button" th:onclick="|insertProduct(${product.id})|"
+              th:disabled="${product.stock == 0}">Beli Sekarang
+            </button>
+          </div>
+
+        </div>
+        <div id="edit-button" sec:authorize="hasRole('ADMIN')">
+          <button class="btn btn-success" type="button" th:onclick="'redirectToEditProduct(' + ${product.id} + ')'">
+            <i class="material-icons">edit</i>
+          </button>
+        </div>
+
+        <div id="delete-button" sec:authorize="hasRole('ADMIN')">
+          <button class="btn btn-danger trigger-btn" type="button" th:onclick="'showDeleteModal(' + ${product.id} + ')'">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <div layout:fragment="js">
+    <script th:src="@{/js/product.js}"></script>
+    <script th:src="@{/js/detail.js}"></script>
+  </div>
+</body>
+
+</html>

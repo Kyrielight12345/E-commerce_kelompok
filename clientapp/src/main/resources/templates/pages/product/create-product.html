@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/main.html}">
+
+<head>
+  <title>product name</title>
+</head>
+
+<body>
+  <section class="container" layout:fragment="content">
+    <!-- product -->
+    <form id="productForm">
+      <div class="row justify-content-between mx-3 my-3">
+        <div class="col" style="width: 100px;">
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" id="carouselInner"></div>
+            <!-- <div id="carouselButton"></div> -->
+          </div>
+          <!-- Multiple File -->
+          <!-- <div class="py-2 align-items-center">
+            <input id="files" type="file" placeholder="choose file..." accept="image/*" multiple />
+            <div id="result" style="display: flex; overflow-x: auto;"></div>
+          </div> -->
+
+          <!-- Single File -->
+          <div class="py-2 align-items-center">
+            <input id="files" type="file" placeholder="choose file..." accept="image/*" />
+            <div id="result" style="display: flex; overflow-x: auto;"></div>
+          </div>
+
+        </div>
+        <div class="col mx-3">
+          <div class="container">
+            <div class="input-group input-group-lg">
+              <span class="input-group-text" id="inputGroup-sizing-lg">Title</span>
+              <input type="text" id="productName" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-lg" required>
+            </div>
+            <br>
+
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col">
+                <div class="input-group">
+                  <span class="input-group-text" id="inputGroup-sizing-default">Price</span>
+                  <input type="text" id="productPrice" class="form-control" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="input-group">
+                  <span class="input-group-text" id="inputGroup-sizing-default">Stock</span>
+                  <input type="text" id="productStock" class="form-control" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="input-group mb-3 py-1">
+              <span class="input-group-text" id="inputGroup-sizing-default">Category</span>
+              <input type="text" id="productCategory" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default" required>
+            </div>
+
+            <div class="content">
+              <div id="editparent">
+                <div id='editControls' style='text-align:center; padding:5px;'>
+                  <div class='btn-group'>
+                    <a class='btn' data-role='undo' href='#'><i class="material-icons">undo</i></a>
+                    <a class='btn' data-role='redo' href='#'><i class="material-icons">redo</i></a>
+                  </div>
+                  <div class='btn-group'>
+                    <a class='btn' data-role='bold' href='#'><i class="material-icons">format_bold</i></a>
+                    <a class='btn' data-role='italic' href='#'><i class="material-icons">format_italic</i></a>
+                    <a class='btn' data-role='underline' href='#'><i class="material-icons">format_underlined</i></a>
+                    <a class='btn' data-role='strikeThrough' href='#'><i class="material-icons">strikethrough_s</i></a>
+                  </div>
+                  <div class='btn-group'>
+                    <a class='btn' data-role='justifyLeft' href='#'><i class="material-icons">format_align_left</i></a>
+                    <a class='btn' data-role='justifyCenter' href='#'><i
+                        class="material-icons">format_align_center</i></a>
+                    <a class='btn' data-role='justifyRight' href='#'><i
+                        class="material-icons">format_align_right</i></a>
+                    <a class='btn' data-role='justifyFull' href='#'><i
+                        class="material-icons">format_align_justify</i></a>
+                  </div>
+                  <div class='btn-group'>
+                    <a class='btn' data-role='indent' href='#'><i class="material-icons">format_indent_increase</i></a>
+                    <a class='btn' data-role='outdent' href='#'><i class="material-icons">format_indent_decrease</i></a>
+                  </div>
+                  <div class='btn-group'>
+                    <a class='btn' data-role='insertUnorderedList' href='#'><i
+                        class="material-icons">format_list_bulleted</i></a>
+                    <a class='btn' data-role='insertOrderedList' href='#'><i
+                        class="material-icons">format_list_numbered</i></a>
+                  </div>
+                  <div class='btn-group'>
+                    <a class='btn' data-role='h1' href='#'>h<sup>1</sup></a>
+                    <a class='btn' data-role='h2' href='#'>h<sup>2</sup></a>
+                    <a class='btn' data-role='p' href='#'>p</a>
+                  </div>
+                  <div class='btn-group'>
+                    <a class='btn' data-role='subscript' href='#'><i
+                        class="material-icons">vertical_align_bottom</i></a>
+                    <a class='btn' data-role='superscript' href='#'><i class="material-icons">vertical_align_top</i></a>
+                  </div>
+                </div>
+                <div id="editor" contenteditable>
+                  <p>Tambahkan deskripsi</p>
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <div class="d-flex justify-content-end">
+              <input id="createProductButton" type="submit" class="btn btn-primary align-text-bottom"
+                onclick="createProduct(event)">
+            </div>
+
+          </div>
+
+        </div>
+    </form>
+    </div>
+  </section>
+
+  <div layout:fragment="js">
+    <script th:src="@{/js/product.js}"></script>
+  </div>
+</body>
+
+</html>

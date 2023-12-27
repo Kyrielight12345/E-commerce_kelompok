@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Navbar</title>
+</head>
+
+<body>
+  <!-- navbar -->
+  <nav class="navbar navbar-expand-lg bg-light" th:fragment="navbar" id="navbar">
+    <div class="container-fluid mx-3">
+
+      <div class="d-flex align-items-center me-auto">
+        <!-- Logo -->
+        <a class="navbar-brand" th:classappend="${isActive == 'home' ? 'active fw-bold' : ''}" th:href="@{/home}">
+          <img src="/img/landing-page/maribelanja.png" alt="Logo" height="40">
+        </a>
+      </div>
+
+      <!-- Category Button -->
+      <div class="dropdown ms-2">
+        <button class="btn btn-outline-primary ms-2" type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <div class="d-flex align-items-center">
+            <i class="material-icons me-1">menu</i>
+            Category
+          </div>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        </div>
+      </div>
+
+      <div id="search-bar">
+        <form class="d-flex mx-auto" th:action="@{/search}" method="get" id="search" style="padding-left: 50px;">
+          <input class="form-control me-2" type="search" placeholder="Search" name="name" aria-label="Search"
+            style="width: 500px;" id="search-nav">
+          <a>
+            <img id="search-button" src="/img/landing-page/search.png" height="30" alt="Search Icon">
+          </a>
+        </form>
+      </div>
+      <span id="search-bar2" style="padding-left: 50px;">
+        <form class="d-flex mx-auto">
+          <a th:href="@{'/search'}">
+            <input class="form-control me-2" type="search" placeholder="Search" name="name" aria-label="Search"
+              style="width: 500px;" id="search-nav">
+          </a>
+        </form>
+      </span>
+
+
+      <!-- Search Bar (centered) -->
+      <!-- <form class="d-flex mx-auto" th:action="@{/search}" method="get" id="search">
+        <input class="form-control me-2" type="search" placeholder="Search" name="name" aria-label="Search"
+          style="width: 500px;" id="search-nav">
+        <a>
+          <img id="search-button" src="/img/landing-page/search.png" height="30" alt="Search Icon">
+        </a>
+      </form> -->
+
+      <!-- Cart Information -->
+      <div class="d-flex align-items-center mx-auto">
+        <div class="container cont-mycart">
+          <a id="cart" th:href="@{/cart}" class="d-flex align-items-center pe-3">
+            <img src="/img/landing-page/trolley.png" alt="Cart Logo" height="30" class="me-2">
+            <span class="me-2">My Cart</span>
+          </a>
+          <div id="cartIndicator" class="circle" hidden></div>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center ms-auto">
+        <div class="dropdown me-auto">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userDropdown"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="/img/landing-page/user.png" alt="Cart Logo" height="30" class="me-2">
+            <span th:text="${name}"></span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <a class="dropdown-item profile-link" href="#" data-bs-toggle="modal" data-bs-target="#detail-profil"
+              th:data-id="${name}">
+              Profile
+            </a>
+            <a class="dropdown-item" type="button" sec:authorize="hasRole('ADMIN')" th:href="@{/product/create}">Tambah
+              Produk</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" style="background-color: red; color: white;" data-bs-toggle="modal"
+              data-bs-target="#logoutModal" type="button">Logout</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Include Bootstrap JavaScript and Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script th:src="@{/js/navbar.js}"></script>
+
+</body>
+
+</html>

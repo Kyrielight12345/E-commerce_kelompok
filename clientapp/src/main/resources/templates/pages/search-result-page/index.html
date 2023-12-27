@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/main.html}">
+
+<head>
+  <title>Search</title>
+</head>
+
+<body>
+  <section class="container" layout:fragment="content">
+    <!-- catalog -->
+    <div class="container-fluid px-5 py-2 align-items-center">
+      <div class="dashboard row d-flex flex-wrap" id="product-container">
+        <!-- product muncul di sini -->
+        <div th:each="product : ${products}">
+          <span th:text="${product.name}"></span> -
+          <span th:text="${product.price}"></span>
+          <!-- Add other product details as needed -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div layout:fragment="js">
+    <script th:src="@{/js/search.js}"></script>
+    <script th:src="@{/js/product.js}"></script>
+  </div>
+</body>
+
+</html>
